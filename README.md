@@ -8,7 +8,7 @@ O Amazon Comprehend é um serviço de processamento de linguagem natural necess�
 
 ### Usuário da AWS
 
-Para execução deste workshop você precisará de um usuário na AWS com acesso aos serviços IAM, S3, DynamoDB, Lambda, API Gateway e Comprehend. Para o Desafio, estes usuários serão fornecidos já com as devidas permissões de acesso. Para evitar problemas, é importante que memorize seu usuário e que se lembre de usar o nome designado na criação de recursos, facilitando a identificação do seu recurso contra os dos demais participantes. Ao longo do texto do workshop será indicado exatamente onde agregar o nome de usuário designado.
+Para execução deste workshop você precisará de um usuário na AWS com acesso aos serviços IAM, S3, DynamoDB, Lambda, API Gateway, SageMaker, ECR e Comprehend. Para o Desafio, estes usuários serão fornecidos já com as devidas permissões de acesso. Para evitar problemas, é importante que memorize seu usuário e que se lembre de usar o nome designado na criação de recursos, facilitando a identificação do seu recurso contra os dos demais participantes. Ao longo do texto do workshop será indicado exatamente onde agregar o nome de usuário designado.
 
 Todos os recursos que você lançará como parte deste workshop são elegíveis para o nível gratuito da AWS se sua conta tiver menos de 12 meses de idade. Veja o [AWS Free Tier page](https://aws.amazon.com/free/) para maiores detalhes.
 
