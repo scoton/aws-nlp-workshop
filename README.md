@@ -1,28 +1,28 @@
 # AWS NLP Workshop
 
-In this workshop you will explore the AWS services needed to enhance your a voice-of-the-customer application with Natural Langage Processing techniques.  The application architecture uses [Amazon Comprehend](https://aws.amazon.com/comprehend/), [Amazon SageMaker](https://aws.amazon.com/sagemaker/), [AWS Lambda](https://aws.amazon.com/lambda/), [Amazon API Gateway](https://aws.amazon.com/api-gateway/), [Amazon S3](https://aws.amazon.com/s3/), [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) and [Amazon ECR](https://aws.amazon.com/ecr/). 
+Neste workshop, você explorará os serviços da AWS necessários para aprimorar seu aplicativo de voz do cliente com técnicas de processamento de linguagem natural. A arquitetura da aplicação usa [Amazon Comprehend](https://aws.amazon.com/comprehend/), [AWS Lambda](https://aws.amazon.com/lambda/), [Amazon API Gateway](https://aws.amazon.com/api-gateway/), [Amazon S3](https://aws.amazon.com/s3/) e [Amazon DynamoDB](https://aws.amazon.com/dynamodb/). 
   
-Amazon Comprehend provides Natural Language Processing service needed to predict the sentiment from the feedback entered by users. Amazon SageMaker is used to orchestrate the machine learning process needed to predict gender of the user from name. S3 hosts static web resources including HTML, CSS, JavaScript, and image files which are loaded in the user's browser. JavaScript executed in the browser sends and receives data from a public backend API built using Lambda and API Gateway. DynamoDB provides a  persistence layer where data can be stored by the API's Lambda function. ECR is used to host the machine learning training code. Finally, Python binding for Keras - machine learning framework is used to create the model needed for gender prediction.
+O Amazon Comprehend é um serviço de processamento de linguagem natural necessário para prever o sentimento dos comentários inseridos pelos usuários. O S3 hospeda recursos da Web estáticos, incluindo HTML, CSS, JavaScript e arquivos de imagem que são carregados no navegador do usuário. Códigos em JavaScript que são executados no navegador enviam e recebem dados de uma API de backend pública criada usando Lambda e API Gateway. O DynamoDB fornece uma camada de persistência na qual os dados podem ser armazenados pela função Lambda da API.
 
-## Prerequisites
+## Pré-requisitos
 
-### AWS Account
+### Usuário da AWS
 
-In order to complete this workshop you'll need an AWS Account with access to create AWS IAM, S3, DynamoDB, Lambda, API Gateway, Comprehend, and Sagemaker. The code and instructions in this workshop assume only one student is using a given AWS account at a time. If you try sharing an account with another student, you'll run into naming conflicts for certain resources. You can work around these by appending a unique suffix to the resources that fail to create due to conflicts, but the instructions do not provide details on the changes required to make this work.
+Para execução deste workshop você precisará de um usuário na AWS com acesso aos serviços IAM, S3, DynamoDB, Lambda, API Gateway e Comprehend. Para o Desafio, estes usuários serão fornecidos já com as devidas permissões de acesso. Para evitar problemas, é importante que memorize seu usuário e que se lembre de usar o nome designado na criação de recursos, facilitando a identificação do seu recurso contra os dos demais participantes. Ao longo do texto do workshop será indicado exatamente onde agregar o nome de usuário designado.
 
-All of the resources you will launch as part of this workshop are eligible for the AWS free tier if your account is less than 12 months old. See the [AWS Free Tier page](https://aws.amazon.com/free/) for more details.
+Todos os recursos que você lançará como parte deste workshop são elegíveis para o nível gratuito da AWS se sua conta tiver menos de 12 meses de idade. Veja o [AWS Free Tier page](https://aws.amazon.com/free/) para maiores detalhes.
 
 ### Browser
 
-We recommend you use the latest version of Chrome to complete this workshop.
+Recomendamos que utilize a versão mais recente do Chrome para concluir este workshop.
 
-## Modules
+## Módulos
 
-This workshop is broken up into multiple modules. You must complete each module before proceeding to the next. The first module has a slidedeck to understand the context, then second module explores the use of Amazon Comprehend, the next model helps you build a TensorFlow Model in Sagemaker, and in the last module we build the complete voice-of-the-customer application using a CloudFormation template. 
+Este workshop divide-se em duas partes. Você deve completar a primeira parte antes de prosseguir para a seguinte.
 
 1. [Creating a VOC application framework](1_VocFramework) - 15 mins
 2. [Using Amazon Comprehend to add sentiment analysis](2_SentimentAnalysis) - 30 mins
 
 ## Cleanup
-After you have completed the workshop, you can delete all of the resources using the following steps:
-1. Delete all Cloudformation stacks created in all modules
+Depois de concluir o workshop, você pode excluir todos os recursos usando as seguintes etapas:
+1. Excluir todas as pilhas do Cloudformation criadas em todos os módulos
