@@ -4,6 +4,8 @@ Neste workshop, você explorará os serviços da AWS necessários para aprimorar
   
 O Amazon Comprehend é um serviço de processamento de linguagem natural necessário para prever o sentimento dos comentários inseridos pelos usuários. O S3 hospeda recursos da Web estáticos, incluindo HTML, CSS, JavaScript e arquivos de imagem que são carregados no navegador do usuário. Códigos em JavaScript que são executados no navegador enviam e recebem dados de uma API de backend pública criada usando Lambda e API Gateway. O DynamoDB fornece uma camada de persistência na qual os dados podem ser armazenados pela função Lambda da API.
 
+Este workshop não representa o desafio em si, mas um roteiro que serve como base para se entender como desenvolver uma aplicação que use o Amazon Comprehend para analisar o sentimento em textos. Para o objetivo do desafio, não é necessário executar o workshop, use o material para se inspirar. Mas se você quiser executar todo o workshop, espero que se divirta!
+
 ## Pré-requisitos
 
 ### Usuário da AWS
