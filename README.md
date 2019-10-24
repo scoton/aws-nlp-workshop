@@ -20,7 +20,6 @@ Guia para uso da API de detecção de sentimentos em diferentes linguagens: http
 Dataset de reviews da Amazon.com: https://s3.amazonaws.com/fast-ai-nlp/amazon_review_full_csv.tgz
 
 Por fim, deixamos este workshop como exemplo mais complexo àqueles que queiram ir além e desenvolver uma aplicação usando a API de análise de sentimentos do Comprehend. Você pode seguir o passo a passo e entender também um pouco sobre outros serviços da AWS, mas lembrando, este workshop não é essencial para o desafio, apenas um exemplo mais elaborado.
-Workshop para criação de uma aplicação de “voice of the customer” com análise de sentimentos: https://github.com/scoton/aws-nlp-workshop
  
 ## AWS NLP Workshop
 
