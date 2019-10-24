@@ -2,42 +2,7 @@
 
 In this module you'll configure Amazon Simple Storage Service (S3) to host the static resources for your web application. In addition you'll also create the serverless framework needed to persist data from the front-end. These include a DynamoDB table to store customers' feedbacks, an API Gateway deployment with methods to store and retrieve data, and associated Lambda functions to facilitate the integration with serverless backend.
 
-In subsequent modules you'll add AI/ML functionalities to this application, using Amazon Comprehend to analyze users' sentiments, and a hosted endpoint on SageMaker to identify users' gender.
-
-If you're already comfortable hosting webapplication on Amazon S3 and using API Gateway and Lambda to add data persistence and retrieval capabilities to an web-application via Javascript, or you just want to skip ahead to satrt working with Amazon Comprehend and AWS SageMaker, you can launch one of these AWS CloudFormation templates in the Region of your choice to build the necessary resources automatically.
-
-Region| Launch
-------|-----
-US East (N. Virginia) | [![Launch Module 1 in us-east-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=nlp-workshop-voc-webapp&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-webapp.json)
-US East (Ohio) | [![Launch Module 1 in us-east-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=nlp-workshop-voc-webapp&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-webapp.json)
-US West (Oregon) | [![Launch Module 1 in us-west-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=nlp-workshop-voc-webapp&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-webapp.json)
-EU (Ireland) | [![Launch Module 1 in eu-west-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=nlp-workshop-voc-webapp&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-webapp.json)
-
-
-<details>
-<summary><strong>CloudFormation Launch Instructions (expand for details)</strong></summary><p>
-
-1. Click the **Launch Stack** link above for the region of your choice.
-
-1. Click **Next** on the Select Template page.
-
-1. Provide a globally unique name for the **Website Bucket Name** such as `nlp-yourname` and click **Next**.
-    ![Speficy Details Screenshot](images/module1-cfn-specify-details.png)
-
-1. On the Options page, leave all the defaults and click **Next**.
-
-1. On the Review page, check the box to acknowledge that CloudFormation will create IAM resources and click **Create**.
-    ![Acknowledge IAM Screenshot](images/cfn-ack-iam.png)
-
-    This template uses a custom resource to copy the static website assets from a central S3 bucket into your own dedicated bucket. In order for the custom resource to write to the new bucket in your account, it must create an IAM role it can assume with those permissions.
-
-1. Wait for the `nlp-workshop-voc-webapp` stack to reach a status of `CREATE_COMPLETE`.
-
-1. With the `nlp-workshop-voc-webapp` stack selected, click on the **Outputs** tab and click on the WebsiteURL link.
-
-1. Verify the VOC application home page is loading properly and move on to the next module, [Sentiment Analysis](../2_SentimentAnalysis).
-
-</p></details>
+In subsequent modules you'll add AI/ML functionalities to this application, using Amazon Comprehend to analyze users' sentiments.
 
 ## Architecture Overview
 
@@ -79,7 +44,7 @@ Amazon S3 can be used to host static websites without having to configure or man
 
 #### High-Level Instructions
 
-Use the console or AWS CLI to create an Amazon S3 bucket. Keep in mind that your bucket's name must be globally unique across all regions and customers. We recommend using a name like `nlp-firstname-lastname`. If you get an error that your bucket name already exists, try adding additional numbers or characters until you find an unused name.
+Use the console or AWS CLI to create an Amazon S3 bucket. Keep in mind that your bucket's name must be globally unique across all regions and customers. We recommend using a name like `nlp-username`. Replace "username" for your e-mail alias without the "@company.com". If you get an error that your bucket name already exists, try adding additional numbers or characters until you find an unused name.
 
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
@@ -88,7 +53,7 @@ Use the console or AWS CLI to create an Amazon S3 bucket. Keep in mind that your
 
 1. Choose **+Create Bucket**
 
-1. Provide a globally unique name for your bucket such as `nlp-firstname-lastname`.
+1. Provide a globally unique name for your bucket such as `nlp-username`.
 
 1. Select the Region you've chosen to use for this workshop from the dropdown.
 
@@ -140,7 +105,7 @@ EU (Ireland) | [![Launch Module 1 in eu-west-1](http://docs.aws.amazon.com/AWSCl
 
 1. Click **Next** on the Select Template page.
 
-1. Enter the name of your S3 bucket (e.g. `nlp-firstname-lastname`) for **Website Bucket Name** and click **Next**.
+1. Enter the name of your S3 bucket (e.g. `nlp-username`) for **Website Bucket Name** and click **Next**.
 
 1. On the Options page, leave all the defaults and click **Next**.
 
@@ -238,7 +203,7 @@ Since you haven't added any database to persist any customer feedback, the table
 
 ### 5. Create an Amazon DynamoDB Table
 
-Use the Amazon DynamoDB console to create a new DynamoDB table. Call your table `UnicornCustomerFeedback` and give it a partition key called `ID` and a sort key called `PostedTime`, both with type String. The table name, partition key, and sort keys are case sensitive. Make sure you use the exact IDs provided. Use the defaults for all other settings.
+Use the Amazon DynamoDB console to create a new DynamoDB table. Call your table `UnicornCustomerFeedback-username` and give it a partition key called `ID` and a sort key called `PostedTime`, both with type String. Replace "username" for your email address without the "@company.com". The table name, partition key, and sort keys are case sensitive. Make sure you use the exact IDs provided. Use the defaults for all other settings.
 
 After you've created the table, note the ARN for use in the next step.
 
@@ -249,7 +214,7 @@ After you've created the table, note the ARN for use in the next step.
 
 1. Choose **Create table**.
 
-1. Enter `UnicornCustomerFeedback` for the **Table name**. This field is case sensitive.
+1. Enter `UnicornCustomerFeedback-username` for the **Table name**. This field is case sensitive.
 
 1. Enter `ID` for the **Partition key** and select **String** for the key type. This field is case sensitive.
 
@@ -273,7 +238,7 @@ Every Lambda function has an IAM role associated with it. This role defines what
 
 #### High-Level Instructions
 
-Use the IAM console to create a new role. Name it `VOCLambdaRole` and select AWS Lambda for the role type. You'll need to attach policies that grant your function permissions to write to Amazon CloudWatch Logs and put items to DynamoDB table and S3 bucket.
+Use the IAM console to create a new role. Name it `VOCLambdaRole-username` (replace "username" for your email address without "@...") and select AWS Lambda for the role type. You'll need to attach policies that grant your function permissions to write to Amazon CloudWatch Logs and put items to DynamoDB table and S3 bucket.
 
 Create a custom inline policy for your role that allows all `dynamodb:*`, `s3:*`, and `logs:*` actions.
 
@@ -294,7 +259,7 @@ Create a custom inline policy for your role that allows all `dynamodb:*`, `s3:*`
 
 1. Click **Next: Review**.
 
-1. Enter `VOCLambdaRole` for the **Role name**.
+1. Enter `VOCLambdaRole-username` for the **Role name**.
 
 1. Choose **Create role**.
 
@@ -363,9 +328,9 @@ AWS Lambda will run your code in response to events such as an HTTP request. In 
 
 #### High-Level Instructions
 
-Use the AWS Lambda console to create a new Lambda function called `EnterCustomerFeedback` that will process the API request submitted with customer name and feedback. Use the provided [entercustomerfeedback.py](functions/entercustomerfeedback.py) example implementation for your function code. Just copy and paste from that file into the AWS Lambda console's editor.
+Use the AWS Lambda console to create a new Lambda function called `EnterCustomerFeedback-username` (replace "username" for your email address without "@...") that will process the API request submitted with customer name and feedback. Use the provided [entercustomerfeedback.py](functions/entercustomerfeedback.py) example implementation for your function code. Just copy and paste from that file into the AWS Lambda console's editor.
 
-Make sure you pass the name of the DynamoDB table that you created earlier to your Lambda function, through an environment variable named `table_name` and you configure your function to use the `VOCLambdaRole` IAM role you created in the previous section.
+Make sure you pass the name of the DynamoDB table that you created earlier to your Lambda function, through an environment variable named `table_name` and you configure your function to use the `VOCLambdaRole-username` IAM role you created in the previous section.
 
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
@@ -376,13 +341,13 @@ Make sure you pass the name of the DynamoDB table that you created earlier to yo
 
 1. Keep the default **Author from scratch** card selected.
 
-1. Enter `EnterCustomerFeedback` in the **Name** field.
+1. Enter `EnterCustomerFeedback-username` in the **Name** field.
 
 1. Select **Python 3.6** for the **Runtime**.
 
 1. Ensure `Choose an existing role` is selected from the **Role** dropdown.
 
-1. Select `VOCLambdaRole` from the **Existing Role** dropdown.
+1. Select `VOCLambdaRole-username` from the **Existing Role** dropdown.
     ![Create Lambda function screenshot](images/create-enterfeedback-lambda.png)
 
 1. Click on **Create function**.
@@ -390,7 +355,7 @@ Make sure you pass the name of the DynamoDB table that you created earlier to yo
 1. Scroll down to the **Function code** section and replace the existing code in the **lambda_function.py** code editor with the contents of [entercustomerfeedback.py](functions/entercustomerfeedback.py).
     ![Create Lambda function screenshot](images/enterfeedback-lambda-code.png)
 
-1. Scroll down to the **Environment variables** section and add one environment variable. Environment variables are key vaue pairs, entered one in each pair of boxes. The box to the left contains the variable name, and the box to the right contains value. In this function, you create one variable by entering `table_name` as name and `UnicorCustomerFeedback` as value. Make sure this value is same as the name of the DynamoDB table you used.
+1. Scroll down to the **Environment variables** section and add one environment variable. Environment variables are key vaue pairs, entered one in each pair of boxes. The box to the left contains the variable name, and the box to the right contains value. In this function, you create one variable by entering `table_name` as name and `UnicorCustomerFeedback-username` as value. Make sure this value is same as the name of the DynamoDB table you used.
     ![Lambda function env var screenshot](images/lambda-env-table-name.png)
 
 1. Click **"Save"** in the upper right corner of the page.
@@ -401,13 +366,13 @@ Make sure you pass the name of the DynamoDB table that you created earlier to yo
 
 #### Background
 
-You'll follow the same staeps as above to create a Lambda function that will read all the records in DynamoDB table and return the list. AWS Lambda will run your code in response to events such as an HTTP request. 
+You'll follow the same steps as above to create a Lambda function that will read all the records in DynamoDB table and return the list. AWS Lambda will run your code in response to events such as an HTTP request. 
 
 #### High-Level Instructions
 
-Use the AWS Lambda console to create a new Lambda function called `GetAllCustomerFeedbacks` that will process the API request submitted with customer name and feedback. Use the provided [getallcustomerfeedbacks.py](functions/getallcustomerfeedbacks.py) example implementation for your function code. Just copy and paste from that file into the AWS Lambda console's editor.
+Use the AWS Lambda console to create a new Lambda function called `GetAllCustomerFeedbacks-username` (replace "username" for your email address without "@...") that will process the API request submitted with customer name and feedback. Use the provided [getallcustomerfeedbacks.py](functions/getallcustomerfeedbacks.py) example implementation for your function code. Just copy and paste from that file into the AWS Lambda console's editor.
 
-Make sure you pass the name of the DynamoDB table that you created earlier to your Lambda function, through an environment variable named `table_name` and you configure your function to use the `VOCLambdaRole` IAM role you created in the previous section.
+Make sure you pass the name of the DynamoDB table that you created earlier to your Lambda function, through an environment variable named `table_name` and you configure your function to use the `VOCLambdaRole-username` IAM role you created in the previous section.
 
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
@@ -418,13 +383,13 @@ Make sure you pass the name of the DynamoDB table that you created earlier to yo
 
 1. Keep the default **Author from scratch** card selected.
 
-1. Enter `EnterCustomerFeedback` in the **Name** field.
+1. Enter `GetAllCustomerFeedbacks-username` in the **Name** field.
 
 1. Select **Python 3.6** for the **Runtime**.
 
 1. Ensure `Choose an existing role` is selected from the **Role** dropdown.
 
-1. Select `VOCLambdaRole` from the **Existing Role** dropdown.
+1. Select `VOCLambdaRole-username` from the **Existing Role** dropdown.
     ![Create Lambda function screenshot](images/create-listfeedbacks-lambda.png)
 
 1. Click on **Create function**.
@@ -446,7 +411,7 @@ In this step you'll test the two functions that you built using the AWS Lambda c
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
 
-1. From the main edit screen for `EnterCustomerFeedback` function, select **Configure test event** from the **Select a test event...** dropdown.
+1. From the main edit screen for `EnterCustomerFeedback-username` function, select **Configure test event** from the **Select a test event...** dropdown.
 
 1. Keep **Create new test event** selected.
 
@@ -477,7 +442,7 @@ In this step you'll test the two functions that you built using the AWS Lambda c
 
 1. Follwing test event would validate not only that the item was inserted into the table, but also that it can be read by a Lambda function and returned to the caller.
 
-. From the main edit screen for `GetAllCustomerFeedbacks` function, select **Configure test event** from the **Select a test event...** dropdown.
+. From the main edit screen for `GetAllCustomerFeedbacks-username` function, select **Configure test event** from the **Select a test event...** dropdown.
 
 1. Keep **Create new test event** selected.
 
@@ -527,7 +492,7 @@ The static website you deployed already has a configration javascript that you'l
 
 1. Choose **Create API**.
 
-1. Select **New API** and enter `NLP Workshop API` for the **API Name**.
+1. Select **New API** and enter `NLP Workshop API username` for the **API Name**. Replace "username" for your email address without the "@company.com" part.
 
 1. Select `Edge optimized` from the **Endpoint Type** dropdown.
     ***Note***: Edge optimized are best for public services being accessed from the Internet. Regional endpoints are typically used for APIs that are accessed primarily from within the same AWS Region.
@@ -568,7 +533,7 @@ Create a new resource called /ride within your API. Then create a POST method fo
 
 1. Select the Region you are using for **Lambda Region**.
 
-1. Enter the name of the function you created in the previous module, `EnterCustomerFeedback`, for **Lambda Function**.
+1. Enter the name of the function you created in the previous module, `EnterCustomerFeedback-username`, for **Lambda Function**.
 
 1. Choose **Save**. Please note, if you get an error that you function does not exist, check that the region you selected matches the one you used in the beginning of this section.
 
@@ -644,7 +609,7 @@ Create a new resource called /ride within your API. Then create a POST method fo
 
 1. Select the Region you are using for **Lambda Region**.
 
-1. Enter the name of the function you created in the previous module, `GetAllCustomerFeedbacks`, for **Lambda Function**.
+1. Enter the name of the function you created in the previous module, `GetAllCustomerFeedbacks-username`, for **Lambda Function**.
 
 1. Choose **Save**. Please note, if you get an error that you function does not exist, check that the region you selected matches the one you used in the beginning of this section.
 
@@ -683,7 +648,7 @@ In this step you'll test the two resources that you created in your API, exposin
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
 
-1. From the **Resources** section of `NLP Workshop API` function, select the `GET` method under the resource `enterfeedback`.
+1. From the **Resources** section of `NLP Workshop API username` function, select the `GET` method under the resource `enterfeedback`.
 
 1. Click on the link for  **TEST** under the **Client** card.
 
@@ -699,7 +664,7 @@ In this step you'll test the two resources that you created in your API, exposin
 
 1. Follwing test event would validate not only that the item was inserted into the table, but also that it can be read by a Lambda function and returned via the API gateway.
 
-1. From the **Resources** section of `NLP Workshop API` function, select the `GET` method under the resource `getallcontents`.
+1. From the **Resources** section of `NLP Workshop API username` function, select the `GET` method under the resource `getallcontents`.
 
 1. Click on the link for  **TEST** under the **Client** card.
 
@@ -812,5 +777,3 @@ Note:
 Note that at this point the controls for **Predict Sentiment** and **Identify Gender** does not work. This is so because you haven't added any method and integration to execute these functions.
 
 Move on to [Sentiment Analysis](../2_SentimentAnalysis) module to learn how you can use the API driven services offered by Amazon Comprehend to predict the sentiments expressed in the feedbacks entered by the customers.
-
-Move on to [NLP Classifier](../3_NLPClassifier) module to learn how you can use the Amazon SageMaker to orchestrate a Machine Learning pipeline to train, validate, host and deploy an LSTM based clssifier to identify users' gender from the name they have entered while submitting feedbacks.
