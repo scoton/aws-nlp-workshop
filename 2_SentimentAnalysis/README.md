@@ -4,36 +4,6 @@ In this module you'll use [Amazon API Gateway](https://aws.amazon.com/api-gatewa
  
 In order to activate “Predict Sentiment” functionality, you will add another method in your API Gateway and a corresponding Lambda function. The Lambda function will invoke Amazon Comprehend Service API to predict the sentiment expressed in user's feedback.
 
-If you're already comfortable with invoking Amazon Comprehend API from a Lambda function, or just want to skip ahead and start working with custom model training and hosting on SageMaker, you can launch one fo these AWS CloudFormation templates in the region of your choice to build out the sentiment prediction functionality automatically.
-
-Region| Launch
-------|-----
-US East (N. Virginia) | [![Launch Module 1 in us-east-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=nlp-workshop-voc-comprehend&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-comprehend.json)
-US East (Ohio) | [![Launch Module 1 in us-east-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-2#/stacks/new?stackName=nlp-workshop-voc-comprehend&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-comprehend.json)
-US West (Oregon) | [![Launch Module 1 in us-west-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=nlp-workshop-voc-comprehend&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-comprehend.json)
-EU (Ireland) | [![Launch Module 1 in eu-west-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=nlp-workshop-voc-comprehend&templateURL=https://s3.amazonaws.com/nlp-workshop/templates/voc-comprehend.json)
-
-<details>
-<summary><strong>CloudFormation Launch Instructions (expand for details)</strong></summary><p>
-
-1. Click the **Launch Stack** link above for the region of your choice.
-
-1. Click **Next** on the Select Template page.
-    ![Speficy Details Screenshot](images/module2-cfn-specify-details.png)
-
-1. On the Options page, leave all the defaults and click **Next**.
-
-1. On the Review page, click **Create**.
-
-1. Wait for the `nlp-workshop-voc-comprehend` stack to reach a status of `CREATE_COMPLETE`.
-
-1. With the `nlp-workshop-voc-comprehend` stack selected, click on the **Outputs** tab and verify that Rest API ID output value is the same as that you specified in the previous module. You should however see a new value for Deployment Id, indicating the API have been redeployed with the new method added..
-
-1. Verify that you can select one or more feedbacks from VOC application home page and click on `Predict Sentiment`, and that the page refreshes to show the sentiment of the chosen feedback as one of POSITIVE, NEGATIVE, NEUTRAL or MIXED.
-Move on to the next module [NLP Classifier](../3_NLPClassifier).
-
-</p></details>
-
 ## Architecture Overview
 
 The architecture for this module is composed of AWS Lambda function that leverage the sentiment analysis capabilities of Amazon Comprehend. Feedback entered by the user through the web page is persisted in a DynamoDB table. Upon the request from the web page, API Gateway invokes the Lambda function, which sends an API call to Comprehend to do the sentiment analysis. The result is saved to the DynamoDB table and the web page gets refreshed to show the result of the analysis, both through the Lambda function and API Gateway.  
@@ -54,9 +24,9 @@ AWS Lambda will run your code in response to events in this case from API Gatewa
 
 #### High-Level Instructions
 
-Use the AWS Lambda console to create a new Lambda function called `PredictFeedbackSentiment` that will process the requests. 
+Use the AWS Lambda console to create a new Lambda function called `PredictFeedbackSentiment-username` that will process the requests. Replace "username" for your emails address without the "@company.com" part.
 
-Make sure to configure your function to use the `VOCLambdaRole` IAM role you created in the previous section.
+Make sure to configure your function to use the `VOCLambdaRole-username` IAM role you created in the previous section.
 
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
@@ -67,13 +37,13 @@ Make sure to configure your function to use the `VOCLambdaRole` IAM role you cre
 
 1. Keep the default **Author from scratch** card selected.
 
-1. Enter `PredictFeedbackSentiment` in the **Name** field.
+1. Enter `PredictFeedbackSentiment-username` in the **Name** field.
 
 1. Select **Python 3.6** for the **Runtime**.
 
 1. Ensure `Choose an existing role` is selected from the **Role** dropdown.
 
-1. Select `VOCLambdaRole` from the **Existing Role** dropdown.
+1. Select `VOCLambdaRole-username` from the **Existing Role** dropdown.
     ![Create Lambda function screenshot](images/create-lambda-function.png)
 
 1. Click on **Create function**.
@@ -82,7 +52,7 @@ Make sure to configure your function to use the `VOCLambdaRole` IAM role you cre
 
     ![Create Lambda function screenshot](images/create-lambda-function-code.png)
 
-1. Scroll down to the **"Environment sariables"** section and add an environment variable with Key `table_name` and Value - `UnicornCustomerFeedback`.
+1. Scroll down to the **"Environment sariables"** section and add an environment variable with Key `table_name` and Value - `UnicornCustomerFeedback-username`.
     ![Create Lambda function screenshot](images/create-lambda-env-var.png)
     
 1. Click **"Save"** in the upper right corner of the page.
@@ -93,7 +63,7 @@ Make sure to configure your function to use the `VOCLambdaRole` IAM role you cre
 
 #### Background
 
-In Module 1,  you have created Lambda execution role `VOCLambdaRole`. In order for your Lambda function you created in the step 1 to call the Comprehend API, you will need to add policy to grands your Lambda function permission to detect sentiment. 
+In Module 1,  you have created Lambda execution role `VOCLambdaRole-username`. In order for your Lambda function you created in the step 1 to call the Comprehend API, you will need to add policy to grands your Lambda function permission to detect sentiment. 
 
 #### High-Level Instructions
 
@@ -102,9 +72,9 @@ Use the IAM Management Console to add a policy to the exisitng role. Go to the L
 <details>
 <summary><strong>Step-by-step instructions (expand for details)</strong></summary><p>
 
-1.	Go to the IAM Management Console, and look for the `VOCLambdaRole` role you created in the Module 1.
+1.	Go to the IAM Management Console, and look for the `VOCLambdaRole-username` role you created in the Module 1.
 
-1.	Select the `VOCLambdaRole` role that you created in the Module 1.
+1.	Select the `VOCLambdaRole-username` role that you created in the Module 1.
 
 1.	On the Permissions tab, choose the **Add inline policy** link in the lower right corner to create a new inline policy. 
 	![Inline policies screenshot](images/inline-policies.png)
@@ -202,7 +172,7 @@ Create a new resource called `/predictsentiment` within your API. Then create a 
 
 1. Select the Region you are using for **Lambda Region**.
 
-1. Enter the name of the function you created in the previous module, `PredictFeedbackSentiment`, for **Lambda Function**.
+1. Enter the name of the function you created in the previous module, `PredictFeedbackSentiment-username`, for **Lambda Function**.
 
 1. Choose **Save**. Please note, if you get an error that you function does not exist, check that the region you selected matches the one you used in the previous module.
 
@@ -265,4 +235,4 @@ From the Amazon API Gateway console, choose Actions, Deploy API. You'll be promp
 
 ![VOC Webapp screenshot](images/voc-webapp-homepage-with-sentiments.png)
 
-Congratulations, you have completed the module 2 of the NLP Workshop! You are ready to move on to the next module [NLP Classifier](../3_NLPClassifier).
+Congratulations, you have completed the module 2 of the NLP Workshop!
