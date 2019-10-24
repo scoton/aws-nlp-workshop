@@ -9,14 +9,19 @@ Análise de sentimentos em textos com o Amazon Comprehend. Cada participante dev
 Onde consigo materiais para me ajudar?
 
 Você pode encontrar o descritivo e a documentação do serviço Amazon Comprehend nestes dois links:
+
 Descritivo do serviço: https://aws.amazon.com/pt/comprehend/
+
 Documentação do serviço: https://docs.aws.amazon.com/comprehend/index.html
 
 Além disso, recomendamos que siga este guia inicial, pois passa por cada um dos primeiros passos para se usar o Comprehend através da console: 
+
 Getting started: https://docs.aws.amazon.com/pt_br/comprehend/latest/dg/getting-started.html
 
 Caso necessário, você pode encontrar descrições mais detalhadas do uso da API de análise de sentimentos em diferentes linguages, e ter acesso a um dataset de reviews da Amazon.com para extrair ideias para testes. Mas lembre-se, recomendamos que pensem na realidade da sua empresa, como recebem feedback, como abordam clientes, que outros tipos de análises de sentimentos em textos são relevantes para o negócios.
+
 Guia para uso da API de detecção de sentimentos em diferentes linguagens: https://github.com/awsdocs/amazon-comprehend-developer-guide/blob/master/doc_source/get-started-api-sentiment.md
+
 Dataset de reviews da Amazon.com: https://s3.amazonaws.com/fast-ai-nlp/amazon_review_full_csv.tgz
 
 Por fim, deixamos este workshop como exemplo mais complexo àqueles que queiram ir além e desenvolver uma aplicação usando a API de análise de sentimentos do Comprehend. Você pode seguir o passo a passo e entender também um pouco sobre outros serviços da AWS, mas lembrando, este workshop não é essencial para o desafio, apenas um exemplo mais elaborado.
