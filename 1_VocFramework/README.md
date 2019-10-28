@@ -397,7 +397,7 @@ Make sure you pass the name of the DynamoDB table that you created earlier to yo
 1. Scroll down to the **Function code** section and replace the existing code in the **lambda_function.py** code editor with the contents of [getallcustomerfeedbacks.py](functions/getallcustomerfeedbacks.py).
     ![Create Lambda function screenshot](images/listfeedbacks-lambda-code.png)
 
-1. Scroll down to the **Environment variables** section and add one environment variable. Environment variables are key vaue pairs, entered one in each pair of boxes. The box to the left contains the variable name, and the box to the right contains value. In this function, you create one variable by entering `table_name` as name and `UnicorCustomerFeedback` as value. Make sure this value is same as the name of the DynamoDB table you used.
+1. Scroll down to the **Environment variables** section and add one environment variable. Environment variables are key vaue pairs, entered one in each pair of boxes. The box to the left contains the variable name, and the box to the right contains value. In this function, you create one variable by entering `table_name` as name and `UnicornCustomerFeedback-username` as value. Make sure this value is same as the name of the DynamoDB table you used.
     ![Lambda function env var screenshot](images/lambda-env-table-name.png)
 
 1. Click **"Save"** in the upper right corner of the page.
